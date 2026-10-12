@@ -1,0 +1,30 @@
+diff --git a/crates/ui-egui/src/fonts.rs b/crates/ui-egui/src/fonts.rs
+index bcaed2d..63e2431 100644
+--- a/crates/ui-egui/src/fonts.rs
++++ b/crates/ui-egui/src/fonts.rs
+@@ -6,6 +6,13 @@ use std::sync::Arc;
+ 
+ /// (path, ttc index) candidates for regular and bold UI text, by platform.
+ const REGULAR: &[(&str, u32)] = &[
++    // Android: `/system/fonts` is where the platform keeps its UI fonts, and it is the only
++    // typeface source an APK has. Without an entry here every port of this app fell back to egui's
++    // bundled defaults, which are not built for a dense DAW layout (numerals and the small caps of
++    // a channel strip). Roboto is the platform's own; Noto is what a device ships when it is not.
++    ("/system/fonts/Roboto-Regular.ttf", 0),
++    ("/system/fonts/RobotoStatic-Regular.ttf", 0),
++    ("/system/fonts/NotoSans-Regular.ttf", 0),
+     ("/System/Library/Fonts/HelveticaNeue.ttc", 0),
+     ("/System/Library/Fonts/Helvetica.ttc", 0),
+     ("C:\\Windows\\Fonts\\segoeui.ttf", 0),
+@@ -16,6 +23,11 @@ const REGULAR: &[(&str, u32)] = &[
+     ("/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf", 0),
+ ];
+ const BOLD: &[(&str, u32)] = &[
++    // Android, as above. A device without a bold face falls back to the regular one, which the
++    // caller below already handles.
++    ("/system/fonts/Roboto-Bold.ttf", 0),
++    ("/system/fonts/RobotoStatic-Bold.ttf", 0),
++    ("/system/fonts/NotoSans-Bold.ttf", 0),
+     ("/System/Library/Fonts/HelveticaNeue.ttc", 1),
+     ("/System/Library/Fonts/Helvetica.ttc", 1),
+     ("C:\\Windows\\Fonts\\segoeuib.ttf", 0),
